@@ -23,7 +23,7 @@
 
 ![](20230826094147.png)
 
-```
+```sql
 _source="Laurel" 
 | where %"syscall.exe" = "/usr/bin/docker"
 | where _raw matches /(docker|ps|info)/
@@ -37,7 +37,7 @@ _source="Laurel"
 
 ![](20230826095126.png)
 
-```
+```sql
 _source="Laurel" 
 | where _raw matches /(chroot|mount)/
 | where %"syscall.exe" = "/usr/bin/dockerd" OR %"syscall.exe"= "/usr/bin/docker"
@@ -53,7 +53,7 @@ _source="Laurel"
 
 ![](20230826095731.png)
 
-```
+```sql
 _source="Docker" and _collector="Docker"
 | if(_raw matches /mount|fdisk/,1,0) as file_system_container_commands
 | where file_system_container_commands = 1
@@ -65,7 +65,7 @@ _source="Docker" and _collector="Docker"
 
 ![](20230826100205.png)
 
-```
+```sql
 _source="Laurel" 
 | where _raw matches /(privileged)/
 | where %"syscall.exe" = "/usr/bin/dockerd" OR %"syscall.exe"= "/usr/bin/docker"
@@ -79,7 +79,7 @@ _source="Laurel"
 
 ![](20230826100548.png)
 
-```
+```sql
 _source="Laurel" 
 | where _raw matches /(SYS_ADMIN)/
 | where %"syscall.exe" = "/usr/bin/dockerd" OR %"syscall.exe"= "/usr/bin/docker"
@@ -93,7 +93,7 @@ _source="Laurel"
 
 ![](20230826101130.png)
 
-```
+```sql
 _source="Laurel" 
 | where _raw matches /(\-v\"\,"\/\:\/mnt)/
 | where %"syscall.exe" = "/usr/bin/dockerd" OR %"syscall.exe"= "/usr/bin/docker"
@@ -104,7 +104,7 @@ _source="Laurel"
 
 ![](20230826102226.png)
 
-```
+```sql
 _source="Docker" and _collector="Docker"
 | where _raw matches /(cat.\/mnt\/etc\/)/
 ```
@@ -115,7 +115,7 @@ _source="Docker" and _collector="Docker"
 
 ![](20230826103136.png)
 
-```
+```sql
 _source="Laurel" 
 | where %"syscall.key" = "network_socket_created"
 | where %"syscall.exe" matches /(\/tmp\/\w\w\w\w\w\w\w\w)/
@@ -124,7 +124,7 @@ _source="Laurel"
 
 ![](20230826103851.png)
 
-```
+```sql
 _source="Laurel" 
 | json field=_raw "PROCTITLE.ARGV[*]" as cmd_arg
 | %"path[0].name" as path_name
